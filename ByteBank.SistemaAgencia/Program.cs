@@ -14,14 +14,25 @@ namespace ByteBank.SistemaAgencia
     {
         static void Main(string[] args)
         {
-            var Lista = new List<int>();
-
-            Lista.AdicionarVarios(1, 3, 56, 7, 3, 2, 6, 435, 54, 54, 3, 432);
-
-            for (int item = 0; item < Lista.Count; item++)
+            var Lista = new List<ContaCorrente>()
             {
-                Console.WriteLine(Lista[item]);
+                new ContaCorrente(2131, 31231),
+                null,
+                new ContaCorrente(2131, 76431),
+                new ContaCorrente(2131, 86731),
+                new ContaCorrente(2131, 14731)
+            };
+
+            var ListaSemNulos =  Lista.Where(conta => conta != null);
+
+            IOrderedEnumerable<ContaCorrente> NovaLista = ListaSemNulos.OrderBy(conta => conta.Numero);
+
+                Console.WriteLine($"Contas ordenadas pelo OrderBy (Número da Conta): ");
+            foreach (var conta in NovaLista) 
+            {
+                Console.WriteLine($"Numero da conta: {conta.Numero} e Numero da Agencia:{conta.Agencia}");
             }
+         
             Console.ReadLine();
         }
         static void TestandoLista() 
