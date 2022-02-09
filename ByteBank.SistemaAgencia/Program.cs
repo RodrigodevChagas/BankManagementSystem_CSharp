@@ -4,6 +4,7 @@ using ByteBank.SistemaAgencia.Extensoes;
 using Humanizer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,27 @@ namespace ByteBank.SistemaAgencia
     class Program
     {
         static void Main(string[] args)
+        {
+            //Acessa o arquivo, cria o fluxo, abre e lê
+            var EnderecoDoArquivo = "contas.txt";
+            var FluxoDoArquivo = new FileStream(EnderecoDoArquivo, FileMode.Open);
+            var Buffer = new byte[1024];
+            FluxoDoArquivo.Read(Buffer, 0, Buffer.Length);
+            EscreverBuffer(Buffer);
+            Console.ReadLine();
+        }
+        //EscrevendoBuffer
+        static void EscreverBuffer(byte[] Buffer) 
+        {
+            foreach(var MeuByte in Buffer) 
+            {
+                Console.Write(MeuByte);
+                Console.Write(" ");
+
+            }
+        }
+        //Usando OrderBy e Lambda para ordenar as contas.
+        static void OrdenandocomLambda()
         {
             var Lista = new List<ContaCorrente>()
             {
@@ -32,10 +54,9 @@ namespace ByteBank.SistemaAgencia
             {
                 Console.WriteLine($"Numero da conta: {conta.Numero} e Numero da Agencia:{conta.Agencia}");
             }
-         
-            Console.ReadLine();
         }
-        static void TestandoLista() 
+
+        static void TestandoLista()
         {
             //Criando uma estrutura de lista e a ordenando por SALDO.
             var ListaDeContas = new List<ContaCorrente>();
