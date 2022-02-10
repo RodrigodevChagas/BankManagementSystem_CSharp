@@ -15,23 +15,42 @@ namespace ByteBank.SistemaAgencia
     {
         static void Main(string[] args)
         {
-            //Acessa o arquivo, cria o fluxo, abre e lê
+            //Acessa o arquivo, cria o fluxo, abre e lê.
             var EnderecoDoArquivo = "contas.txt";
-            var FluxoDoArquivo = new FileStream(EnderecoDoArquivo, FileMode.Open);
-            var Buffer = new byte[1024];
-            FluxoDoArquivo.Read(Buffer, 0, Buffer.Length);
-            EscreverBuffer(Buffer);
-            Console.ReadLine();
+            
+            //FileStream recebe o nome do arquivo e indica o que fazer com ele.
+            
+            //Using serve para fechar o arquivo após ter concluido o fluxo.
+            //E funciona pois FileStream herda a interface IDisposable
+            using (var FluxoDoArquivo = new FileStream(EnderecoDoArquivo, FileMode.Open))
+            {
+                //criando array para poder executar o buffer.
+                var Buffer = new byte[1024];
+                var numeroDeBytesLidos = -1;
+                while ( numeroDeBytesLidos != 0)
+                {
+                //Usando o metodo Read para poder extrair os bytes lidos.
+                    numeroDeBytesLidos = FluxoDoArquivo.Read(Buffer, 0, Buffer.Length);
+                    EscreverBuffer(Buffer);
+                    Console.ReadLine();
+
+                }
+            }
+
         }
         //EscrevendoBuffer
         static void EscreverBuffer(byte[] Buffer) 
         {
-            foreach(var MeuByte in Buffer) 
-            {
-                Console.Write(MeuByte);
-                Console.Write(" ");
+            var decodifica = Encoding.Default;
+            var texto = decodifica.GetString(Buffer);
 
-            }
+            Console.Write(texto);
+            //foreach(var MeuByte in Buffer) 
+            //{
+            //    Console.Write(MeuByte);
+            //    Console.Write(" ");
+
+            //}
         }
         //Usando OrderBy e Lambda para ordenar as contas.
         static void OrdenandocomLambda()
